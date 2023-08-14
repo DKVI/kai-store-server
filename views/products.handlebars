@@ -1,0 +1,38 @@
+<link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+/>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Products</h1>
+      <div class="row">
+        {{#each data}}
+          <div class="col-lg-3 col-md-4 col-sm-12 mb-2">
+            <div class="card">
+              <img
+                class="card-img-top"
+                src="{{thumbnail}}"
+                alt="Card image cap"
+              />
+              <div class="card-body">
+                <h5
+                  class="card-title product-title"
+                  style="font-size: 14px;"
+                >{{nameProduct}}</h5>
+                <a
+                  href="/admin/products/{{idProduct}}"
+                  class="btn btn-primary"
+                >Detail</a>
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .product-title { white-space: nowrap; overflow: hidden; text-overflow:
+  ellipsis;/* Đặt độ rộng tùy ý cho tiêu đề */ }
+</style>

@@ -1,0 +1,132 @@
+<div class="container mt-5 d-flex">
+  <div class="col-md-6 m-auto bg-black">
+    <div class="row w-100">
+      {{#each images}}
+        <div class="col-md-6 p-0 border border-info img-container"
+            data-index="{{this.idImg}}"
+        >
+          <a
+            href="#"
+            class="btn btn-danger delete"
+            data-index="{{this.idImg}}"
+            style="right: 0; top: 0; position: absolute; z-index: 1;"
+            onclick="handleDelete()"
+          >&times;</a>
+          <img src="{{this.linkImg}}" alt="" style="width:100%"
+          data-index="{{this.idImg}}" />
+        </div>
+      {{/each}}
+    </div>
+    <div class="row w-100 mt-4">
+      <a class="col-md-6 btn btn-secondary" href="/admin/products/{{id}}">
+        Hủy
+      </a>
+
+      <button class="col-md-6 btn btn-primary"
+        onclick="isFullFill()"  
+      >
+        Lưu
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+  const formData = new FormData();
+  const imgsDeletedId = []; 
+  const filesArray = [];
+  const fileIndex =[];
+  let filesPath;
+  function autoReplace (index, container) {
+    console.log (container)
+    container.innerHTML = `<input type="file" name="img" id="img" class="form-control-file"  height: 100%; width: 100%; />`;
+    const input = container.querySelector('input');
+    input.addEventListener ('change', event => {
+      const files = event.target.files[0];
+      const id = container.dataset.index;
+      filesArray.push(files)
+      fileIndex.push(id)
+      if (files) {
+        console.log (files) 
+        const reader = new FileReader();
+        reader.addEventListener ('load', event => {
+          const id = files.name;
+          container.innerHTML = `<img src="${event.target.result}" class="w-100"
+          data-index="${id}" />
+          <a
+            href="#"
+            class="btn btn-danger delete"
+            data-index="${id}"
+            style="right: 0; top: 0; position: absolute; z-index: 1;"
+            onclick="handleDelete()"
+          >&times;</a>`
+        })
+        reader.readAsDataURL(event.target.files[0])
+      }
+    })
+  };
+
+  
+  function handleDelete () {
+    const index = event.target.dataset.index;
+    const dataset = event.target.parentElement.dataset.index;
+    for (let i = 0; i < filesArray.length; i++) {
+      if (filesArray[i].name == index) {
+        filesArray.splice(i, 1);
+        fileIndex.splice(i, 1);
+      }
+    }
+    if (parseInt(index)) {
+      imgsDeletedId.push(parseInt(index));
+    }
+    const img = document.querySelector(`img[data-index="${index}"]`);
+    const container = img.parentElement;
+    event.target.remove();
+    img.remove();
+    autoReplace(index, container);
+  }
+
+
+  async function uploadImgs () {
+    const response = await fetch ('/admin/upload/multipleFile', {
+      method: 'POST',
+      body: formData
+    })
+    const data = await response.json();
+    filesPath = data.filesPath;
+  }
+
+
+  async function updateImgPath (id, path) {
+    const response = await fetch (`/admin/imgs/edit/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({idImg: id, linkImg: path})
+    })
+    const data = await response.json();
+    console.log (data);
+  }
+
+  async function isFullFill () {
+    const imgs = document.querySelectorAll('img');
+    console.log (filesArray)
+    console.log (imgs.length)
+    if (imgs.length != 4)
+      alert('Vui lòng chọn đủ 4 ảnh')
+    else {
+      filesArray.forEach (file => {
+        formData.append('img', file);
+      })
+    };
+    await uploadImgs();
+    console.log (filesPath)
+    filesPath.forEach ( async (path,index) => {
+      console.log ({
+        idImg: fileIndex[index],
+        linkImg: path
+      })
+      await updateImgPath (fileIndex[index], path);
+    })
+  }
+</script>

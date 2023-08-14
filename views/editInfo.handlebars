@@ -1,0 +1,129 @@
+<div class="container mt-5">
+  <h1>Edit info product id {{product.idProduct}}</h1>
+  <div class="row">
+    <div class="col-md-10 py-2">
+      <div class="row">
+        <label class="col-md-2 py-2">
+          Tên sản phẩm:
+        </label>
+        <input class="col-md-10 py-2 nameProduct" value="{{product.nameProduct}}" />
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 py-2">
+
+          <div class="row">
+            <label class="col-md-2 py-2">
+              Phân loại:
+            </label>
+            <select class="col-md-4 category">
+              <option
+                value="{{product.idCategory}}"
+                selected
+              >{{product.idCategory}}</option>
+              <option value="quan-ao">quan-ao</option>
+              <option value="phu-kien">phu-kien</option>
+            </select>
+            <label class="col-md-2 py-2">
+              Loại:
+            </label>
+            <select class="col-md-4 py-2 type">
+              <option
+                value="{{product.idType}}"
+                selected
+              >{{product.idType}}</option>
+              <option value="ao">ao</option>
+              <option value="quan">quan</option>
+              <option value="ao-khoac">ao-khoac</option>
+              <option value="balo">balo</option>
+              <option value="day-nit">day-nit</option>
+              <option value="giay">giay</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+      <div class="py-2">
+        <div class="row">
+          <label class="col-md-2 py-2">
+            Slug
+          </label>
+          <input class="col-md-10 py-2 pSlug" value="{{product.pSlug}}" />
+        </div>
+      </div>
+      <div class="py-2">
+        <div class="row">
+          <label class="col-md-2 py-2 ">
+            Giá tiền:
+          </label>
+          <input class="col-md-10 py-2 price" value="{{product.price}}" />
+        </div>
+      </div>
+      <div class="py-2">
+        <div class="row">
+          <label class="col-md-2 py-2">
+            Mô tả:
+          </label>
+          <textarea class="col-md-10 py-2 des" value="" rows="12">
+            {{product.des}}
+          </textarea>
+        </div>
+      </div>
+      <div class="py-2">
+        <div class="row">
+          <label class="col-md-2 py-2 ">
+            Size:
+          </label>
+          <input class="col-md-10 py-2 featureSize" value="{{product.featureSize}}" />
+        </div>
+      </div>
+        <div class="row py-2">
+                <div class="col-md-2"></div>
+                <button class=" col-md-5 py-2btn btn-second">Quay lại</button>
+                <button class="col-md-5 py-2 btn btn-primary" onclick="submitInfo()">Lưu</button>
+        </div>
+    </div>
+  </div>
+  
+
+  
+</div>
+
+<script>
+    function submitInfo () {
+        const nameProduct = document.querySelector('.nameProduct').value;
+        const idCategory = document.querySelector('.category').value;
+        const idType = document.querySelector('.type').value;
+        const pSlug = document.querySelector('.pSlug').value;
+        const price = document.querySelector('.price').value;
+        const des = document.querySelector('.des').value;
+        const featureSize = document.querySelector('.featureSize').value;
+        const featureSizeArray = featureSize.split(',');       
+       const data = {
+        nameProduct,
+        idCategory,
+        idType,
+        pSlug,
+        des,
+        featureSize: JSON.stringify(featureSizeArray),
+        featureColor: null,
+        otherFeature: null,
+        price,
+       };
+         console.log (data);
+        fetch ("/admin/products/{{product.idProduct}}", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        }).then(res => res.json())
+            .then (data => {
+              alert ('Sửa thành công');
+              window.location.href = `/admin/products/{{product.idProduct}}`;
+            })
+            .catch(err => console.log (err))
+    } 
+
+
+</script>

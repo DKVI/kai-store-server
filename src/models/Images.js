@@ -1,0 +1,29 @@
+const express = require("express");
+const db = require("../db");
+
+const Images = {
+  getAll: (callback) => {
+    db.query("SELECT * FROM image", callback);
+  },
+  getById: (id, callback) => {
+    db.query(`SELECT * FROM image WHERE idProduct = '${id}'`, callback);
+  },
+  add: (image, callback) => {
+    db.query(
+      `INSERT INTO image (idProduct, linkImg) VALUES ('${image.idProduct}', '${image.linkImg}')`,
+      callback
+    );
+  },
+  deleteById: (id, callback) => {
+    db.query(`DELETE FROM image WHERE idImg = '${id}'`, callback);
+  },
+  updateById: (image, callback) => {
+    console.log (image)
+    db.query(
+      `UPDATE image SET linkImg = '${image.linkImg}' WHERE idImg = ${parseInt(image.idImg)}`,
+      callback
+    );
+  },
+};
+
+module.exports = Images;

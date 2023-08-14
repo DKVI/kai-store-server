@@ -1,0 +1,42 @@
+<div class="container m-auto">
+  <div class="row m-auto justify-content-center">
+    <div class="col-md-4 form px-4 py-4">
+      <h3>WELCOME BACK,ADMIN!</h3>
+      <form action="/admin/login" method="POST">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            id="username"
+            name="username"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary col-md-12 mt-4"
+        >Login</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+/>
+
+<script>
+  const nav = document.querySelector("nav"); nav.classList.add("d-none");
+</script>
