@@ -10,6 +10,22 @@ function addImgsAndNomalize(product, images) {
   return imgs;
 }
 
+async function deleteById(req, res) {
+  const id = req.params.id;
+  Products.deleteById(id, (err, data) => {
+    if (err)
+      res.send({
+        success: 0,
+        message: "Database connection error",
+      });
+    else
+      res.send({
+        success: 1,
+        message: "Delete success",
+      });
+  });
+}
+
 async function getAllProduct(req, res) {
   console.log(req.render);
   const products = await new Promise((resolve, reject) => {
@@ -251,7 +267,7 @@ const getByType = async (req, res) => {
 
 function addProduct(req, res) {
   const body = req.body;
-  console.log (body)
+  console.log(body);
   Products.create(body, (err, results) => {
     if (err) {
       console.log(err);
@@ -293,4 +309,5 @@ module.exports = {
   getByType,
   addProduct,
   updateProduct,
+  deleteById,
 };

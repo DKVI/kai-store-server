@@ -205,21 +205,29 @@
       .then (data => data);
 
             const result = filesPath.map (async (path) =>{
-            const data = {
-              idProduct,
-              linkImg: path
-            }
-            console.log (data)  
-             const addImg = await fetch ("/admin/create/imgs", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify ({...data})
+              const data = {
+                idProduct,
+                linkImg: path
+              }
+              console.log (data)  
+              const addImg = await fetch ("/admin/create/imgs", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify ({...data})
+              })
+              .then (res => res.json())
+              .then (data => data);
+              return addImg.success;
             })
-            .then (res => res.json())
-            .then (data => data);
-            return addImg.success;
-          })
-    }
+
+            if (result) {
+              alert ("Thêm sản phẩm thành công");
+              window.location.href = "/admin/products";
+            }
+            else {
+              alert ("Thêm sản phẩm thất bại");
+            }
+          }
 </script>

@@ -53,9 +53,13 @@ router.post(
   }
 );
 
-router.post ("/create/imgs", imageController.addImage);
+router.post("/create/imgs", imageController.addImage);
 router.post("/create/products", productController.addProduct);
-
-
+router.delete("/delete/products/:id", productController.deleteById);
+router.delete(
+  "/delete/imgs-from-product/:id",
+  imageController.deleteByIdProduct
+);
+router.post("/users");
 
 module.exports = router;

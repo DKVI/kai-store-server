@@ -52,6 +52,10 @@ const Product = {
     );
   },
 
+  deleteById: (idProduct, callback) => {
+    db.query(`DELETE FROM products WHERE idProduct = '${idProduct}'`, callback);
+  },
+
   update: (idProduct, product, callback) => {
     const {
       nameProduct,

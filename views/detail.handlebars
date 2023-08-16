@@ -143,7 +143,7 @@
           class="btn btn-secondary"
           data-dismiss="modal"
         >Hủy</button>
-        <button type="button" class="btn btn-danger">Xóa</button>
+        <button type="button" class="btn btn-danger" onclick="handleDelete(`{{product.idProduct}}`)">Xóa</button>
       </div>
     </div>
   </div>
@@ -155,6 +155,29 @@
   document.querySelectorAll(".size-cloth input"); sizes.forEach((size) => {
   product.featureSize.forEach((featureSize) => { if (size.value === featureSize)
   { size.checked = true; } }); });
+
+  async function handleDelete (id) {
+      const deleteImgs = await fetch ("/admin/delete/imgs-from-product/"+id, {
+          method: "DELETE",
+      })
+      .then (res => res.json())
+      .then (data => data);
+  
+      if (deleteImgs.success = 1) {
+          const deleteProduct = await fetch ("/admin/delete/products/"+id, {
+              method: "DELETE",
+          })
+          .then (res => res.json())
+          .then (data => data);
+  
+          if (deleteProduct.success = 1) {
+              alert ("Xóa thành công");
+              window.location.href = "/admin/products";
+          }
+      }
+  }
+
+  
 </script>
 <link
   rel="stylesheet"

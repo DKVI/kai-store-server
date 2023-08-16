@@ -27,6 +27,9 @@ const Images = {
       callback
     );
   },
+  deleteByIdProduct: (id, callback) => {
+    db.query(`DELETE FROM image WHERE idProduct = '${id}'`, callback);
+  }
 };
 
 module.exports = Images;
