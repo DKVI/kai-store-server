@@ -9,8 +9,9 @@ const Images = {
     db.query(`SELECT * FROM image WHERE idProduct = '${id}'`, callback);
   },
   add: (image, callback) => {
+    const { idProduct, linkImg } = image;
     db.query(
-      `INSERT INTO image (idProduct, linkImg) VALUES ('${image.idProduct}', '${image.linkImg}')`,
+      `INSERT INTO image (idProduct, linkImg) VALUES ('${idProduct}', '${linkImg}')`,
       callback
     );
   },
@@ -18,9 +19,11 @@ const Images = {
     db.query(`DELETE FROM image WHERE idImg = '${id}'`, callback);
   },
   updateById: (image, callback) => {
-    console.log (image)
+    console.log(image);
     db.query(
-      `UPDATE image SET linkImg = '${image.linkImg}' WHERE idImg = ${parseInt(image.idImg)}`,
+      `UPDATE image SET linkImg = '${image.linkImg}' WHERE idImg = ${parseInt(
+        image.idImg
+      )}`,
       callback
     );
   },

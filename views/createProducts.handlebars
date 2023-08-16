@@ -1,0 +1,225 @@
+<div class="container mt-5">
+  <h1>ADD NEW PRODUCT</h1>
+  <div class="row">
+    <div class="col-md-10 py-2">
+      <div class="row">
+        <label class="col-md-2 py-2">
+          Tên sản phẩm:
+        </label>
+        <input class="col-md-10 py-2 nameProduct" value="" />
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 py-2">
+
+          <div class="row">
+            <label class="col-md-2 py-2">
+              Phân loại:
+            </label>
+            <select class="col-md-4 category">
+              <option selected>-- Category --</option>
+              <option value="quan-ao">quan-ao</option>
+              <option value="phu-kien">phu-kien</option>
+            </select>
+            <label class="col-md-2 py-2">
+              Loại:
+            </label>
+            <select class="col-md-4 py-2 type">
+              <option class="" selected>-- Type --</option>
+              <option value="ao">ao</option>
+              <option value="quan">quan</option>
+              <option value="ao-khoac">ao-khoac</option>
+              <option value="balo">balo</option>
+              <option value="day-nit">day-nit</option>
+              <option value="giay">giay</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+      <div class="py-2">
+        <div class="row">
+          <label class="col-md-2 py-2">
+            Slug
+          </label>
+          <input class="col-md-10 py-2 pSlug" />
+        </div>
+      </div>
+      <div class="py-2">
+        <div class="row">
+          <label class="col-md-2 py-2">
+            Giá tiền:
+          </label>
+          <input class="col-md-10 py-2 price" />
+        </div>
+      </div>
+      <div class="py-2">
+        <div class="row">
+          <label class="col-md-2 py-2">
+            Mô tả:
+          </label>
+          <textarea class="col-md-10 py-2 des" value="" rows="12">
+          </textarea>
+        </div>
+      </div>
+      <div class="py-2">
+        <div class="row">
+          <label class="col-md-2 py-2">
+            Size:
+          </label>
+          <input class="col-md-10 py-2 size" value="" />
+        </div>
+      </div>
+      <div class="py-2">
+        <div class="row">
+          <div class="col-md-2 py-2">Images</div>
+          <div class="col-md-10 py-2">
+            <div class="row">
+              <div class="col-md-6 p-0 border border-info img-container"
+            data-index="">
+                <input type="file" name="" id="" onchange="showImg()" >
+              </div>
+              <div class="col-md-6 p-0 border border-info img-container"
+            data-index="">
+                <input type="file" name="" id="" onchange="showImg()" >
+              </div>
+              <div class="col-md-6 p-0 border border-info img-container"
+            data-index="">
+                <input type="file" name="" id="" onchange="showImg()" >
+              </div>
+              <div class="col-md-6 p-0 border border-info img-container"
+            data-index="">
+                <input type="file" name="" id="" onchange="showImg()" >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row py-2">
+        <div class="col-md-2"></div>
+        <button class="col-md-5 py-2btn btn-second">Quay lại</button>
+        <button
+          class="col-md-5 py-2 btn btn-primary"
+          onclick="createNewProduct()"
+        >Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const fileArray = []
+  const indexArray = []
+  let filesPath = [];
+  function handleDelete () {
+    event.preventDefault();
+    const index = event.target.dataset.index;
+    console.log (index)
+    const imgContainer = document.querySelector(`.img-container[data-index="${index}"]`);
+    indexArray.forEach ((item, i) => {
+      if (item === index) {
+        indexArray.splice (i, 1);
+        fileArray.splice (i, 1);
+      }
+    })
+    console.log (imgContainer)
+    imgContainer.innerHTML = `<input type="file" name="" id="" onchange="showImg()" >`
+    console.log (indexArray, fileArray)
+  }
+
+    function showImg () {
+        const input = event.target;
+        const container = input.parentElement;  
+        console.log({
+            input,
+            container
+        })
+        const reader = new FileReader();
+        reader.onload = function () {
+            const dataURL = reader.result;
+            const id = "P" + Math.round (Math.random() * 1000);
+            container.dataset.index = id; 
+            container.innerHTML = `<img src="${event.target.result}" class="w-100"
+          data-index="${id}" />
+
+          <a
+            href="#"
+            class="btn btn-danger delete"
+            data-index="${id}"
+            style="right: 0; top: 0; position: absolute; z-index: 1;"
+            onclick="handleDelete()"
+          >&times;</a>`
+        indexArray.push(id);
+        } 
+        fileArray.push (event.target.files[0]);
+        reader.readAsDataURL(event.target.files[0])
+    }
+    
+
+    async function createNewProduct () {
+         if (fileArray.length != 4) {
+          alert("Vui lòng chọn đủ 4 ảnh");
+          return;
+        }
+        const nameProduct = document.querySelector('.nameProduct').value;
+        const idProduct = "P" + nameProduct.charCodeAt(0) + Math.floor(Math.random() * 10);
+        const idCategory = document.querySelector('.category').value;
+        const idType = document.querySelector('.type').value;
+        const pSlug = document.querySelector('.pSlug').value;
+        const price = document.querySelector('.price').value;
+        const des = document.querySelector('.des').value;
+        const featureSize = document.querySelector('.size').value;
+        const featureSizeArray = featureSize.split(',');
+        const data = {
+            idProduct,
+            nameProduct,
+            idCategory,
+            idType,
+            pSlug,
+            des,
+            featureSize: JSON.stringify(featureSizeArray),
+            featureColor: null,
+            otherFeature: null,
+            price,
+        }
+      const formData = new FormData();
+      fileArray.forEach (file => {
+        console.log(file)
+        formData.append ("img", file);
+      })
+      filesPath = await fetch ("/admin/upload/multipleFile", {
+        method: "POST",
+        body: formData
+      })
+      .then (res => res.json())
+      .then (data => data.filesPath)
+      
+       const addProduct = await fetch ("/admin/create/products" , {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify ({...data})
+      })
+      .then (res => res.json())
+      .then (data => data);
+
+            const result = filesPath.map (async (path) =>{
+            const data = {
+              idProduct,
+              linkImg: path
+            }
+            console.log (data)  
+             const addImg = await fetch ("/admin/create/imgs", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify ({...data})
+            })
+            .then (res => res.json())
+            .then (data => data);
+            return addImg.success;
+          })
+    }
+</script>

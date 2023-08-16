@@ -12,6 +12,14 @@ router.post("/login", loginAdmin, (req, res) => {
   res.redirect("/admin/products");
 });
 
+router.get("/products/create", (req, res) => {
+  res.render("createProducts");
+});
+
+router.get("/users/create", (req, res) => {
+  res.render("createUsers");
+});
+
 router.get(
   "/products",
   (req, res, next) => {
@@ -44,6 +52,10 @@ router.post(
     res.json({ filesPath: filesPath });
   }
 );
+
+router.post ("/create/imgs", imageController.addImage);
+router.post("/create/products", productController.addProduct);
+
 
 
 module.exports = router;

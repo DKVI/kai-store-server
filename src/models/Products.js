@@ -13,7 +13,7 @@ const Product = {
       nameProduct,
       idCategory,
       idType,
-      slug,
+      pSlug,
       des,
       featureSize,
       featureColor,
@@ -21,7 +21,7 @@ const Product = {
       price,
     } = newProduct;
     db.query(
-      `INSERT INTO products (idProduct, nameProduct, idCategory, idType, pSlug, des, featureSize, featureColor, otherFeature, price) VALUES ('${idProduct}', '${nameProduct}', '${idCategory}', '${idType}', '${slug}', '${des}', '${featureSize}', '${featureColor}', '${otherFeature}', '${price}')`,
+      `INSERT INTO products (idProduct, nameProduct, idCategory, idType, pSlug, des, featureSize, featureColor, otherFeature, price) VALUES ('${idProduct}', '${nameProduct}', '${idCategory}', '${idType}', '${pSlug}', '${des}', '${featureSize}', '${featureColor}', '${otherFeature}', '${price}')`,
       callback
     );
   },

@@ -251,6 +251,7 @@ const getByType = async (req, res) => {
 
 function addProduct(req, res) {
   const body = req.body;
+  console.log (body)
   Products.create(body, (err, results) => {
     if (err) {
       console.log(err);

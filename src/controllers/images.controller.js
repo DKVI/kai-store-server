@@ -43,10 +43,6 @@ const getImgByIdProduct = async (req, res) => {
 };
 
 const updateImg = async (req, res) => {
-  console.log (
-    "req.body: ", req.body, "\n",
-    "req.params: ", req.params.id 
-  )
   Images.updateById(req.body, (err, data) => {
     console.log(req.body);  
     if (err) {
