@@ -5,6 +5,7 @@ const { loginAdmin } = adminController;
 const imageController = require("../controllers/images.controller");
 const upload = require("../../multerConfig");
 const productController = require("../controllers/product.controller");
+const usersController = require("../controllers/user.controller");
 router.get("/login", (req, res) => {
   res.render("login");
 });
@@ -17,7 +18,7 @@ router.get("/products/create", (req, res) => {
 });
 
 router.get("/users/create", (req, res) => {
-  res.render("createUsers");
+  res.render("createUser");
 });
 
 router.get(
@@ -60,6 +61,10 @@ router.delete(
   "/delete/imgs-from-product/:id",
   imageController.deleteByIdProduct
 );
-router.post("/users");
 
+router.get("/users", usersController.getAllUser);
+router.post("/users", usersController.createUser);
+router.get("/users/:id", usersController.getUserById);
+router.put("/users/:id", usersController.updateUser);
+router.delete("/users/:id", usersController.deleteUser);
 module.exports = router;

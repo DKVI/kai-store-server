@@ -5,9 +5,17 @@ const User = {
     db.query("SELECT * FROM users", callback);
   },
   create: (newUser, callback) => {
-    const { idUser, nameUser, username, password, address, email } = newUser;
+    const {
+      idUser,
+      nameUser,
+      username,
+      password,
+      address,
+      email,
+      phoneNumber,
+    } = newUser;
     db.query(
-      `INSERT INTO users (idUser, nameUser, username, password,address,email) VALUES ('${idUser}', '${nameUser}', '${username}', '${password}', '${address}', '${email}')`,
+      `INSERT INTO users (idUser, nameUser, username, password,address,email, phoneNumber) VALUES ('${idUser}', '${nameUser}', '${username}', '${password}', '${address}', '${email}', '${phoneNumber}')`,
       callback
     );
   },
@@ -21,6 +29,10 @@ const User = {
   },
   delete: (id, callback) => {
     db.query(`DELETE FROM users WHERE idUser = '${id}'`, callback);
+  },
+
+  getById: (id, callback) => {
+    db.query(`SELECT * FROM users WHERE idUser = '${id}'`, callback);
   },
 };
 

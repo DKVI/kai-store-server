@@ -15,10 +15,7 @@ const getAllUser = async (req, res) => {
   }).then((data) => {
     return data;
   });
-  res.status(200).json({
-    success: 1,
-    data: users,
-  });
+  res.render("users", { users });
 };
 
 const createUser = async (req, res) => {
@@ -85,9 +82,45 @@ const deteleById = (req, res) => {
   });
 };
 
+function getUserById(req, res) {
+  const id = req.params.id;
+  console.log(id);
+  User.getById(id, (err, data) => {
+    if (err) {
+      res.status(500).json({
+        success: 0,
+        err: err,
+        message: "server error!",
+      });
+    } else {
+      res.render("editUser", { user: data[0] });
+    }
+  });
+}
+
+const deleteUser = (req, res) => {
+  const id = req.params.id;
+  User.delete(id, (err, data) => {
+    if (err) {
+      res.status(500).json({
+        success: 0,
+        err: err,
+        message: "server error!",
+      });
+    } else {
+      res.status(200).json({
+        success: 1,
+        message: "delete user successfully!",
+      });
+    }
+  });
+};
+
 module.exports = {
   getAllUser,
   createUser,
   updateUser,
   deteleById,
+  getUserById,
+  deleteUser,
 };

@@ -1,0 +1,100 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-10 justify-content-center">
+      <h1 class="text-center my-5">USERS LIST</h1>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Tên</th>
+              <th scope="col">Email</th>
+              <th scope="col">Số điện thoại</th>
+              <th scope="col">Địa chỉ</th>
+              <th scope="col">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each users}}
+              <tr>
+                <th scope="row">{{this.idUser}}</th>
+                <td>{{this.nameUser}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.phoneNumber}}</td>
+                <td>{{this.address}}</td>
+                <td>
+                  <a
+                    href="/admin/users/{{this.idUser}}/edit"
+                    class="btn btn-primary"
+                  >Sửa</a>
+                  <form
+                    action="/admin/users/{{this.idUser}}?_method=DELETE"
+                    method="POST"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#Modal{{this.idUser}}"
+                    >
+                      Xóa
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="Modal{{this.idUser}}"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Delete user</h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      >&times;</button>
+                    </div>
+                    <div class="modal-body">
+                      "Bạn có chắc chắn muốn xóa user {{this.nameUser}} không?"
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >Close</button>
+                      <a type="button" class="btn btn-danger" onclick="handleDelete(`{{this.idUser}}`)" >Xóa</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  async function handleDelete (id) {
+    const respone = await fetch (`/admin/users/${id}`, {
+      method: 'DELETE',
+    }).then((res) => res.json())
+    .then (data => data);   
+  
+    if (respone.success === 1) {
+      alert('Xóa thành công!');
+      window.location.href = '/admin/users';
+    }
+  }
+</script>
