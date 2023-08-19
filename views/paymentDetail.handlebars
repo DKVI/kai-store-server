@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="row justify-content-center ">
+    <h1 class="col-md-12 my-5">
+      DETAIL PAYMENT
+      {{data.idPayment}}
+    </h1>
+    <div class="col-md-10">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Image</th>
+            <th scope="col">ID Cart</th>
+            <th scope="col">ID Payment</th>
+            <th scope="col">ID User</th>
+            <th scope="col">Total</th>
+            <th scope="col">Quatity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each data.carts}}
+            <tr>
+              <td>
+                <div
+                  style="height: 100%;
+                  padding: 50% 50% 50% 50%;
+                background-image: url('{{this.linkImg}}');
+                background-size: cover; 
+                background-position: center;
+                background-repeat: no-repeat;
+                "
+                >
+
+                </div>
+              </td>
+              <td>{{this.idCart}}</td>
+              <td>{{this.idPayment}}</td>
+              <td>{{this.idUser}}</td>
+              <td>{{this.totalPrice}}</td>
+              <td>{{this.count}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

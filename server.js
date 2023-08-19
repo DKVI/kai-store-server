@@ -13,6 +13,13 @@ const hbs = handlebars.create({
       return JSON.stringify(context);
     },
 
+    objectArrayValue(object, index, key) {
+      return object[index][key];
+    },
+
+    objectValue(object, key) {
+      return object[key];
+    },
   },
 });
 var PORT = process.env.PORT || 3000;

@@ -1,5 +1,122 @@
-<div class="row">
-    <div class="col-md-10">
-        <h1 class="text-center my-5">EDIT USER {{user.idUser}}</h1>
+<div class="container">
+  <div class="row">
+    <h1 class="text-center my-5">EDIT USERS {{user.idUser}}</h1>
+    <div class="col-md-12 py-2">
+      <div class="row p-2 d-flex" style="align-items: center">
+        <label class="col-md-2">Họ và tên: </label>
+        <input
+          class="col-md-10 p-2"
+          type="text"
+          name="nameUser"
+          id="nameUser"
+          placeholder=""
+          value="{{user.nameUser}}"
+        />
     </div>
+
+      <div class="row p-2 d-flex" style="align-items: center">
+        <label class="col-md-2">Tên người dùng: </label>
+        <input
+          class="col-md-10 p-2"
+          type="text"
+          name="username"
+          id="username"
+          placeholder=""
+          value="{{user.username}}"
+        />
+
+      </div>
+      <div class="row p-2 d-flex" style="align-items: center">
+        <label class="col-md-2">Mật khẩu: </label>
+        <input
+          class="col-md-10 p-2"
+          name="password"
+          id="password"
+          placeholder=""
+          value="{{user.password}}"
+        />
+      </div>
+
+      <div class="row p-2 d-flex" style="align-items: center">
+        <label class="col-md-2">Email: </label>
+        <input
+          class="col-md-10 p-2"
+          type="text"
+          name="email"
+          id="email"
+          placeholder=""
+            value="{{user.email}}"
+        />
+      </div>
+
+      <div class="row p-2 d-flex" style="align-items: center">
+        <label class="col-md-2">Số điện thoại: </label>
+        <input
+          class="col-md-10 p-2"
+          type="text"
+          name="phoneNumber"
+          id="phoneNumber"
+          placeholder=""
+            value="{{user.phoneNumber}}"
+        />
+      </div>
+
+      <div class="row p-2 d-flex" style="align-items: center">
+        <label class="col-md-2">Địa chỉ: </label>
+        <input
+          class="col-md-10 p-2"
+          type="text"
+          name="address"
+          id="address"
+          placeholder=""
+            value="{{user.address}}"
+        />
+      </div>
+      <div class="row p-2">
+        <div class="col-md-2"></div>
+        <a class="btn btn-secondary col-md-5 p-2" href="/admin/users">Quay lại</a>
+        <button class="btn btn-primary col-md-5 p-2" onclick="updateUser()" >Lưu</button>
+      </div>
+  </div>
 </div>
+</div>
+
+
+<script>
+    const nameUser = document.getElementById('nameUser');
+    const username = document.getElementById('username');
+    const password = document.getElementById('password');
+    const email = document.getElementById('email');
+    const phoneNumber = document.getElementById('phoneNumber');
+    const address = document.getElementById('address');
+
+
+     async function updateUser () {
+        const data = {
+            nameUser: nameUser.value,
+            username: username.value,
+            password: password.value,
+            email: email.value,
+            address: address.value,
+            phoneNumber: phoneNumber.value,
+        }
+        const respone = await fetch (`/admin/users/{{user.idUser}}?action=update`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
+        .then (res => res.json())
+        .then (data => data);
+
+        if (respone.success === 1) {
+            alert ("Cập nhật thành công");
+            window.location.href = "/admin/users";
+        }
+    }
+</script>
+<link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+/>

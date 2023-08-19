@@ -6,6 +6,8 @@ const imageController = require("../controllers/images.controller");
 const upload = require("../../multerConfig");
 const productController = require("../controllers/product.controller");
 const usersController = require("../controllers/user.controller");
+const paymentController = require("../controllers/payment.controller");
+const Payment = require("../models/Payment");
 router.get("/login", (req, res) => {
   res.render("login");
 });
@@ -66,5 +68,9 @@ router.get("/users", usersController.getAllUser);
 router.post("/users", usersController.createUser);
 router.get("/users/:id", usersController.getUserById);
 router.put("/users/:id", usersController.updateUser);
+router.get("/users/:id?action=update", (req, res) => res.render("editUser"));
 router.delete("/users/:id", usersController.deleteUser);
+router.get("/payments", paymentController.getAllPayment);
+router.get("/payments/:id", paymentController.getByIdPayment);
+router.delete("/payments/:id", paymentController.deleteByIdPayment);
 module.exports = router;

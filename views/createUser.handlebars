@@ -3,46 +3,35 @@
     <h1 class="text-center my-5">CREATE NEW USERS</h1>
     <div class="col-md-12 py-2">
       <div class="row p-2 d-flex" style="align-items: center">
-        <label class="col-md-2">First name: </label>
+        <label class="col-md-2">Họ và tên: </label>
         <input
           class="col-md-10 p-2"
           type="text"
-          name="firstName"
-          id="firstName"
-          placeholder="First name"
+          name="nameUser"
+          id="nameUser"
+          placeholder=""
         />
-      </div>
+    </div>
 
       <div class="row p-2 d-flex" style="align-items: center">
-        <label class="col-md-2">Last name: </label>
-        <input
-          class="col-md-10 p-2"
-          type="text"
-          name="lastName"
-          id="lastName"
-          placeholder="Last name"
-        />
-      </div>
-
-      <div class="row p-2 d-flex" style="align-items: center">
-        <label class="col-md-2">Username: </label>
+        <label class="col-md-2">Tên người dùng: </label>
         <input
           class="col-md-10 p-2"
           type="text"
           name="username"
           id="username"
-          placeholder="Username"
+          placeholder=""
         />
 
       </div>
       <div class="row p-2 d-flex" style="align-items: center">
-        <label class="col-md-2">Password: </label>
+        <label class="col-md-2">Mật khẩu: </label>
         <input
           class="col-md-10 p-2"
           type="password"
           name="password"
           id="password"
-          placeholder="Password"
+          placeholder=""
         />
       </div>
 
@@ -53,43 +42,43 @@
           type="text"
           name="email"
           id="email"
-          placeholder="Email"
+          placeholder=""
         />
       </div>
 
       <div class="row p-2 d-flex" style="align-items: center">
-        <label class="col-md-2">Phone number: </label>
+        <label class="col-md-2">Số điện thoại: </label>
         <input
           class="col-md-10 p-2"
           type="text"
           name="phoneNumber"
           id="phoneNumber"
-          placeholder="Phone number"
+          placeholder=""
         />
       </div>
 
       <div class="row p-2 d-flex" style="align-items: center">
-        <label class="col-md-2">Address: </label>
+        <label class="col-md-2">Địa chỉ: </label>
         <input
           class="col-md-10 p-2"
           type="text"
           name="address"
           id="address"
-          placeholder="Address"
+          placeholder=""
         />
       </div>
       <div class="row p-2">
         <div class="col-md-2"></div>
-        <button class="btn btn-secondary col-md-5 p-2" onclick="clearInput()" > Clear</button>
-        <button class="btn btn-primary col-md-5 p-2" onclick="createUser()" >Create</button>
+        <button class="btn btn-secondary col-md-5 p-2" onclick="clearInput()" >Xóa</button>
+        <button class="btn btn-primary col-md-5 p-2" onclick="createUser()" >Tạo</button>
       </div>
-    </div>
   </div>
 </div>
+</div>
+
 
 <script>
-    const firstName = document.getElementById('firstName');
-    const lastName = document.getElementById('lastName');
+    const nameUser = document.getElementById('nameUser');
     const username = document.getElementById('username');
     const password = document.getElementById('password');
     const email = document.getElementById('email');
@@ -97,8 +86,7 @@
     const address = document.getElementById('address');
 
     function clearInput () {
-        firstName.value = '';
-        lastName.value = '';
+        nameUser.value = '';
         username.value = '';
         password.value = '';
         email.value = '';
@@ -110,7 +98,7 @@
      async function createUser () {
         const data = {
             idUser: "U" + Math.floor(Math.random() * 100000),
-            nameUser: lastName.value + ' ' + firstName.value,
+            nameUser: nameUser.value,
             username: username.value,
             password: password.value,
             email: email.value,
@@ -136,3 +124,8 @@
         }
     }
 </script>
+<link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+/>
+

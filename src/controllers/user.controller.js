@@ -84,6 +84,7 @@ const deteleById = (req, res) => {
 
 function getUserById(req, res) {
   const id = req.params.id;
+  const action = req.query.action;
   console.log(id);
   User.getById(id, (err, data) => {
     if (err) {
@@ -92,8 +93,15 @@ function getUserById(req, res) {
         err: err,
         message: "server error!",
       });
-    } else {
+    }
+    if (action === "update") {
       res.render("editUser", { user: data[0] });
+    } else {
+      res.status(200).json({
+        success: 1,
+        data: data[0],
+        message: "get user successfully!",
+      });
     }
   });
 }

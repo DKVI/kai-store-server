@@ -1,0 +1,77 @@
+<div class="container">
+  <div class="row">
+    <h1 class="col-md-12 my-5">
+      PAYMENT LIST
+    </h1>
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">ID Payment</th>
+            <th scope="col">ID User</th>
+            <th scope="col">Total</th>
+            <th scope="col">Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each payments}}
+            <tr>
+              <td>{{this.idPayment}}</td>
+              <td>{{this.idUser}}</td>
+              <td>{{this.price}}</td>
+              <td>{{this.paymentDate}}</td>
+              <td>
+                <a
+                  href="/admin/payments/{{this.idPayment}}?mode=admin"
+                  class="btn btn-primary"
+                >Detail</a>
+                <a
+                  href="#"
+                  class="btn btn-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#{{this.idPayment}}"
+                >Cancel</a>
+              </td>
+            </tr>
+
+            <!-- Modal -->
+            <div
+              class="modal fade"
+              id="{{this.idPayment}}"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cancel
+                      payment {{this.idPayment}}</h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    >X</button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure to cancel this payment?
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >No</button>
+                    <button type="button" class="btn btn-danger">Yes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
