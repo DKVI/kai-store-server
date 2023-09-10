@@ -34,6 +34,15 @@ const User = {
   getById: (id, callback) => {
     db.query(`SELECT * FROM users WHERE idUser = '${id}'`, callback);
   },
+
+  login: (user, callback) => {
+    const { username, password } = user;
+    console.log(username, password);
+    db.query(
+      `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`,
+      callback
+    );
+  },
 };
 
 module.exports = User;

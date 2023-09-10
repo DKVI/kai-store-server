@@ -10,6 +10,9 @@ const Payment = {
   deleteById: (id, callback) => {
     db.query(`DELETE FROM payment WHERE idPayment = "${id}"`, callback);
   },
+  getByIdUser: (id, callback) => {
+    db.query(`SELECT * FROM payment WHERE idUser = "${id}"`, callback);
+  },
 };
 
 module.exports = Payment;

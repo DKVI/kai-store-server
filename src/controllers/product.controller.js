@@ -10,6 +10,46 @@ function addImgsAndNomalize(product, images) {
   return imgs;
 }
 
+async function getLimitProduct(req, res) {
+  const limit = req.params.limits;
+  const products = await new Promise((resolve, reject) => {
+    Products.getLimit(limit, (err, data) => {
+      if (err)
+        reject({
+          success: 0,
+          message: "Database connection error",
+        });
+      else resolve([...data]);
+    });
+  }).then((data) => {
+    return data;
+  });
+  const images = await new Promise((resolve, reject) => {
+    Images.getAll((err, data) => {
+      if (err)
+        reject({
+          success: 0,
+          message: "Database connection error",
+        });
+      else resolve([...data]);
+    });
+  }).then((data) => {
+    return data;
+  });
+  const data = products.map((product) => {
+    const imgs = addImgsAndNomalize(product, images);
+    return {
+      ...product,
+      images: imgs,
+      thumbnail: imgs[0].linkImg,
+    };
+  });
+  res.status(200).json({
+    success: 1,
+    data,
+  });
+}
+
 async function deleteById(req, res) {
   const id = req.params.id;
   Products.deleteById(id, (err, data) => {
@@ -301,6 +341,52 @@ function updateProduct(req, res) {
   });
 }
 
+async function searchProduct(req, res) {
+  console.log("search");
+  const keyword = req.query.keyword;
+  console.log(keyword);
+  const products = await new Promise((resolve, reject) => {
+    Products.search(keyword, (err, data) => {
+      if (err) {
+        reject({
+          success: 0,
+          message: "Database connection error",
+        });
+      } else {
+        resolve([...data]);
+      }
+    });
+  }).then((data) => {
+    return data;
+  });
+  const imgs = await new Promise((resolve, reject) => {
+    Images.getAll((err, data) => {
+      if (err) {
+        reject({
+          success: 0,
+          message: "Database connection error",
+        });
+      } else {
+        resolve([...data]);
+      }
+    });
+  }).then((data) => {
+    return data;
+  });
+  const data = products.map((product) => {
+    const images = addImgsAndNomalize(product, imgs);
+    return {
+      ...product,
+      images,
+      thumbnail: imgs[0].linkImg,
+    };
+  });
+  res.status(200).json({
+    success: 1,
+    data,
+  });
+}
+
 module.exports = {
   getAllProduct,
   getBySlug,
@@ -310,4 +396,6 @@ module.exports = {
   addProduct,
   updateProduct,
   deleteById,
+  searchProduct,
+  getLimitProduct,
 };

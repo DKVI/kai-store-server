@@ -113,8 +113,37 @@ const deleteByIdPayment = async (req, res) => {
   res.send(respone);
 };
 
+const getByIdUser = async (req, res) => {
+  const id = req.decoded.id ? req.decoded.id : req.params.id;
+  const payment = await new Promise((resolve, reject) => {
+    Payment.getByIdUser(id, (err, data) => {
+      if (err) {
+        reject({
+          success: 0,
+          err,
+        });
+      } else {
+        resolve(data);
+      }
+    });
+  }).then((data) => {
+    data.forEach((item) => {
+      item.featureGH = JSON.parse(item.featureGH);
+    });
+    return data;
+  });
+  const result = payment.map( (item) => {
+    const cartArray = item.featureGH.map( (item) => {
+      return item;
+    });
+    return cartArray;
+  });
+  console.log(result);
+};
+
 module.exports = {
   getAllPayment,
   getByIdPayment,
   deleteByIdPayment,
+  getByIdUser,
 };

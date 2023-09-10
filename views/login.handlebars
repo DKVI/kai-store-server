@@ -1,4 +1,4 @@
-<div class="container m-auto">
+<div class="container margin-top--100">
   <div class="row m-auto justify-content-center">
     <div class="col-md-4 form px-4 py-4">
       <h3>WELCOME BACK,ADMIN!</h3>
@@ -23,6 +23,9 @@
             required
           />
         </div>
+        {{#if message}}
+          <span style="color: red">{{message}}</span>
+        {{/if}}
         <button
           type="submit"
           class="btn btn-primary col-md-12 mt-4"
@@ -31,7 +34,6 @@
     </div>
   </div>
 </div>
-
 <link
   rel="stylesheet"
   href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -39,5 +41,12 @@
 
 <script>
   const nav = document.querySelector("nav"); nav.classList.add("d-none");
+  console.log ({{err.message}})
 </script>
 
+<style>
+  .margin-top--100 { margin-top: 100px; }
+  body {
+    overflow: hidden;
+  }
+</style>

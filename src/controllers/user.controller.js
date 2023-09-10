@@ -1,5 +1,5 @@
 const User = require("../models/Users");
-
+const jwt = require("jsonwebtoken");
 const getAllUser = async (req, res) => {
   const users = await new Promise((resolve, reject) => {
     User.getAll((err, data) => {
@@ -16,6 +16,32 @@ const getAllUser = async (req, res) => {
     return data;
   });
   res.render("users", { users });
+};
+
+const loginUser = (req, res) => {
+  const userInfo = req.body;
+  User.login(userInfo, (err, data) => {
+    if (err) {
+      res.status(500).json({
+        success: 0,
+        err: err,
+        message: "server error!",
+      });
+    } else {
+      const user = {
+        id: data[0].idUser,
+        username: data[0].username,
+      };
+      const token = jwt.sign(user, "secret-key", { expiresIn: "1h" });
+      req.session.token = token;
+      res.cookie("token", token, { maxAge: 1000 * 60 * 60, httpOnly: true });
+      res.status(200).json({
+        success: 1,
+        data: data,
+        message: "login successfully!",
+      });
+    }
+  });
 };
 
 const createUser = async (req, res) => {
@@ -124,6 +150,29 @@ const deleteUser = (req, res) => {
   });
 };
 
+const authenticationUser = (req, res, next) => {
+  const token = req.headers.authorization;
+  console.log(token);
+  if (token) {
+    jwt.verify(token, "secret-key", (err, decoded) => {
+      if (err) {
+        return res.json({
+          success: 0,
+          message: "Invalid token",
+        });
+      } else {
+        req.decoded = decoded;
+        next();
+      }
+    });
+  } else {
+    res.json({
+      success: 0,
+      message: "Access denied! unauthorization user",
+    });
+  }
+};
+
 module.exports = {
   getAllUser,
   createUser,
@@ -131,4 +180,6 @@ module.exports = {
   deteleById,
   getUserById,
   deleteUser,
+  loginUser,
+  authenticationUser,
 };

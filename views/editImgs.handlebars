@@ -42,6 +42,7 @@
     const input = container.querySelector('input');
     input.addEventListener ('change', event => {
       const files = event.target.files[0];
+      
       const id = container.dataset.index;
       filesArray.push(files)
       fileIndex.push(id)

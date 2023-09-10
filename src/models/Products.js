@@ -7,6 +7,18 @@ const Product = {
       callback
     );
   },
+  getLimit: (limits, callback) => {
+    db.query(
+      `SELECT DISTINCT * FROM products, typep, category WHERE products.idType = typep.idType AND products.idCategory = category.idCategory LIMIT ${limits}`,
+      callback
+    );
+  },
+  search: (key, callback) => {
+    db.query(
+      `SELECT DISTINCT * FROM products, typep, category WHERE products.idType = typep.idType AND products.idCategory = category.idCategory AND products.nameProduct LIKE '%${key}%'`,
+      callback
+    );
+  },
   create: (newProduct, callback) => {
     const {
       idProduct,
