@@ -43,6 +43,8 @@ const getImgByIdProduct = async (req, res) => {
 };
 
 const updateImg = async (req, res) => {
+  const idImg = req.params.id;
+  req.body.idImg = idImg;
   Images.updateById(req.body, (err, data) => {
     console.log(req.body);
     if (err) {
@@ -70,10 +72,33 @@ const deleteByIdProduct = (req, res) => {
     } else {
       res.status(200).json({
         success: 1,
-        message: "Delete image successfully",
+        message: `Delete all image of product ${idProduct} successfully`,
       });
     }
   });
 };
 
-module.exports = { addImage, getImgByIdProduct, updateImg, deleteByIdProduct };
+const deleteById = (req, res) => {
+  const id = req.params.id;
+  Images.deleteById(id, (err, data) => {
+    if (err) {
+      res.status(500).json({
+        success: 0,
+        message: "Database connect error",
+      });
+    } else {
+      res.status(200).json({
+        success: 0,
+        message: "Delete image sucessfully",
+      });
+    }
+  });
+};
+
+module.exports = {
+  addImage,
+  getImgByIdProduct,
+  updateImg,
+  deleteByIdProduct,
+  deleteById,
+};

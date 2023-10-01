@@ -85,6 +85,56 @@ const Product = {
       callback
     );
   },
+
+  getByOptions: (search, callback) => {
+    const { keyword, options } = search;
+    const baseQuery = `SELECT DISTINCT * FROM products, typep, category WHERE products.idType = typep.idType AND products.idCategory = category.idCategory`;
+
+    switch (options) {
+      case "new":
+        db.query(
+          `${baseQuery} AND products.otherFeature LIKE '%new%' AND products.nameProduct LIKE ?`,
+          [`%${keyword}%`],
+          callback
+        );
+        break;
+      case "best-seller":
+        db.query(
+          `${baseQuery} AND products.otherFeature LIKE '%best-seller%' AND products.nameProduct LIKE ?`,
+          [`%${keyword}%`],
+          callback
+        );
+        break;
+      case "priceASC":
+        db.query(
+          `${baseQuery} AND products.nameProduct LIKE ? ORDER BY price ASC`,
+          [`%${keyword}%`],
+          callback
+        );
+        break;
+      case "priceDESC":
+        db.query(
+          `${baseQuery} AND products.nameProduct LIKE ? ORDER BY price DESC`,
+          [`%${keyword}%`],
+          callback
+        );
+        break;
+      case "nameASC":
+        db.query(
+          `${baseQuery} AND products.nameProduct LIKE ? ORDER BY nameProduct ASC`,
+          [`%${keyword}%`],
+          callback
+        );
+        break;
+      case "nameDESC":
+        db.query(
+          `${baseQuery} AND products.nameProduct LIKE ? ORDER BY nameProduct DESC`,
+          [`%${keyword}%`],
+          callback
+        );
+        break;
+    }
+  },
 };
 
 module.exports = Product;

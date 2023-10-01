@@ -256,10 +256,17 @@ const getByCategory = async (req, res) => {
       images: imgs,
     };
   });
-  res.status(200).json({
-    success: 1,
-    data,
-  });
+  if (data) {
+    res.status(200).json({
+      success: 1,
+      data,
+    });
+  } else {
+    res.status(404).json({
+      success: 0,
+      message: "Not found",
+    });
+  }
 };
 
 const getByType = async (req, res) => {
@@ -374,6 +381,7 @@ async function searchProduct(req, res) {
     return data;
   });
   const data = products.map((product) => {
+    console.log(product);
     const images = addImgsAndNomalize(product, imgs);
     return {
       ...product,
@@ -381,10 +389,19 @@ async function searchProduct(req, res) {
       thumbnail: imgs[0].linkImg,
     };
   });
-  res.status(200).json({
-    success: 1,
-    data,
-  });
+  if (data.length !== 0) {
+    res.status(200).json({
+      success: 1,
+      data,
+    });
+    return;
+  } else {
+    res.status(404).json({
+      success: 0,
+      message: "Not found",
+    });
+    return;
+  }
 }
 
 module.exports = {

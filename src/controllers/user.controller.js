@@ -1,6 +1,7 @@
 const User = require("../models/Users");
 const jwt = require("jsonwebtoken");
 const getAllUser = async (req, res) => {
+  console.log(req.query.mode);
   const users = await new Promise((resolve, reject) => {
     User.getAll((err, data) => {
       if (err) {
@@ -15,7 +16,15 @@ const getAllUser = async (req, res) => {
   }).then((data) => {
     return data;
   });
-  res.render("users", { users });
+  if (req.query.mode === "admin") {
+    res.render("users", { users: users });
+    return;
+  }
+  res.status(200).json({
+    success: 1,
+    data: users,
+    message: "get all user successfully!",
+  });
 };
 
 const loginUser = (req, res) => {

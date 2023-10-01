@@ -4,18 +4,26 @@ const router = express.Router();
 const productController = require("../controllers/product.controller");
 const {
   getAllProduct,
-  getBySlug,
+  updateProduct,
   getByCategory,
   getByType,
   addProduct,
   searchProduct,
   getLimitProduct,
+  getById,
+  deleteById,
 } = productController;
+const searchController = require("../controllers/search.controller");
+
+const { getByOptions } = searchController;
+
 router.get("/category", getByCategory);
 router.get("/type", getByType);
-router.get("/search", searchProduct);
+router.get("/search", getByOptions);
+router.get("/:id", getById);
 router.get("/limits/:limits", getLimitProduct);
-router.get("/:slug", getBySlug);
-router.put("/", addProduct);
+router.post("/", addProduct);
+router.put("/:id", updateProduct);
 router.get("/", getAllProduct);
+router.delete("/delete/:id", deleteById);
 module.exports = router;

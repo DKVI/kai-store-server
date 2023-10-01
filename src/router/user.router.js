@@ -8,12 +8,14 @@ const {
   deteleById,
   loginUser,
   authenticationUser,
+  getUserById,
 } = userController;
+router.get("/:id", getUserById);
 router.get("/", getAllUser);
 router.put("/", createUser);
-router.put("/login", loginUser);
-router.patch("/:id", updateUser);
+router.put("/:id", updateUser);
 router.delete("/:id", deteleById);
+router.put("/login", loginUser);
 router.get("/authentication", authenticationUser, (req, res) => {
   res.json({
     success: 1,
